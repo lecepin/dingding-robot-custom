@@ -74,3 +74,22 @@ function setFileContent($fileName, $content)
   fwrite($f, $content);
   fclose($f);
 }
+
+function wLog($content, $isEncode = true,  $title = '', $dir = './logs/')
+{
+  $date = date('Y-m-d');
+  $path  =  $dir . $date . '.log';
+  $dir_name = dirname($path);
+
+  if (!file_exists($dir_name)) {
+    mkdir(iconv("UTF-8", "GBK", $dir_name), 0666, true);
+  }
+
+  if ($isEncode == true) {
+    $content = json_encode($content);
+  }
+
+  $now_date = date('Y-m-d H:i:s', time());
+  $content =  $now_date . $title . "\n" . $content . "\n\n\n";
+  file_put_contents($path, $content, FILE_APPEND);
+}
